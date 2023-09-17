@@ -11,6 +11,7 @@ class ValidMatrix:
     def __set__(self, instance, value):
         if isinstance(value, list):
             self.__is_empty_recursive(value)
+            self.__is_all_numbers(value)
             instance.__dict__[self._attr] = value
         else:
             raise ValueError('Некорректное значение')
@@ -27,7 +28,6 @@ class ValidMatrix:
                 return False
 
         raise TypeError('List is empty')
-
 
     def __is_all_numbers(self, lst):
         for i in range(len(lst)):

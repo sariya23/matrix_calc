@@ -1,33 +1,6 @@
 from copy import deepcopy
 
 
-def is_empty(lst):
-    if not lst:
-        raise TypeError
-
-    for item in lst:
-        if isinstance(item, list):
-            if not is_empty(item):
-                return
-        else:
-            return
-
-    raise TypeError
-
-
-def check_is_input_correct(matrix):
-    if not isinstance(matrix, list):
-        return False
-
-    if not all(isinstance(i, list) for i in matrix):
-        return False
-
-    if len(set(map(len, matrix))) != 1:
-        return False
-
-    return True
-
-
 def determinant_recursive(matrix):
     if len(matrix) == len(matrix[0]) == 1:
         return matrix[0][0]

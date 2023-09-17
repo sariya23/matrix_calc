@@ -1,6 +1,6 @@
 from utils import determinant_recursive,\
     add_matrix, sub_matrix, mul_matrix, mul_number_to_matrix,\
-    pow_matrix, transpose_matrix, is_empty
+    pow_matrix, transpose_matrix
 
 from validators import ValidMatrix
 
@@ -84,4 +84,4 @@ class Matrix:
 
 
 if __name__ == '__main__':
-    a = Matrix([[], [], []])
+    a = Matrix([[1]])

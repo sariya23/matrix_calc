@@ -29,7 +29,8 @@ class ValidMatrix:
 
         raise TypeError('List is empty')
 
-    def __is_all_numbers(self, lst):
+    @staticmethod
+    def __is_all_numbers(lst):
         for i in range(len(lst)):
             for j in range(len(lst[0])):
                 if not isinstance(lst[i][j], int | float):

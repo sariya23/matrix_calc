@@ -20,6 +20,11 @@ data_create_str = (
     ['kek']
 )
 
+data_add_bad = (
+    ([[1, 2, 3], [1, 2, 3]], [[1, 2], [1, 2]]),
+    ([[1, 2, 3], [1, 2, 3]], [[1]])
+)
+
 
 @pytest.mark.parametrize('matrix', data_create_bad)
 def test_create_bad(matrix):
@@ -36,3 +41,9 @@ def test_det_bad(matrix_det, expected_det):
 def test_create_from_string_error(matrix):
     with pytest.raises(TypeError):
         Matrix(matrix)
+
+
+@pytest.mark.parametrize('matrix1, matrix2', data_add_bad)
+def test_add_bad(matrix1, matrix2):
+    with pytest.raises(TypeError):
+        Matrix(matrix1) + Matrix(matrix2)

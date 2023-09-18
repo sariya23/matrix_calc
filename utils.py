@@ -1,4 +1,5 @@
 from copy import deepcopy
+from decimal import *
 
 
 def determinant_recursive(matrix):
@@ -138,3 +139,22 @@ def inverse_matrix(matrix):
     matrix_algebraic_complements = get_matrix_algebraic_complements(get_matrix_minor(matrix))
 
     return mul_number_to_matrix(1 / det, transpose_matrix(matrix_algebraic_complements))
+
+
+def do_decimal(matrix_list):
+    new_matrix = [[0] * len(matrix_list[0]) for i in range(len(matrix_list))]
+
+    for i in range(len(matrix_list)):
+        for j in range(len(matrix_list[0])):
+            new_matrix[i][j] = Decimal(str(matrix_list[i][j])).quantize(Decimal('1.000000'))
+
+    return new_matrix
+
+if __name__ == '__main__':
+    print(do_decimal([
+        [1/3, 2.0, 2],
+        [1, 2, 2],
+        [1, 2, 3]
+    ]))
+
+    print((Decimal('52')) + Decimal('34'))

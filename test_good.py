@@ -50,6 +50,14 @@ data_pow_good = (
 )
 
 
+data_inverse_good = (
+    ([[2, 3], [-1, 4]], np.linalg.inv(np.array([[2, 3], [-1, 4]]))),
+    ([[2, 1, 5], [3, -1, 2], [0, 4, 2]], np.linalg.inv(np.array([[2, 1, 5], [3, -1, 2], [0, 4, 2]]))),
+    ([[3, -2, 5], [4, 0, 2], [-1, 2, 1]], np.linalg.inv(np.array([[3, -2, 5], [4, 0, 2], [-1, 2, 1]]))),
+    ([[1, 2, 3, 4], [5, 6, 7, 8], [2, 10, 11, 12], [13, 14, 15, 11]], np.linalg.inv(np.array([[1, 2, 3, 4], [5, 6, 7, 8], [2, 10, 11, 12], [13, 14, 15, 11]])))
+)
+
+
 @pytest.mark.parametrize('matrix, expected_t', data_transpose_good)
 def test_transpose(matrix, expected_t):
     assert matrix.matrix_list == expected_t.tolist()
@@ -78,3 +86,9 @@ def test_mul(matrix1, matrix2, expected_mul):
 @pytest.mark.parametrize('matrix, power, expected_res', data_pow_good)
 def test_pow(matrix, power, expected_res):
     assert (matrix ** power).matrix_list == expected_res.tolist()
+
+
+@pytest.mark.parametrize('matrix, expected_inv', data_inverse_good)
+def test_inverse(matrix, expected_inv):
+    m = Matrix(matrix)
+    assert (m ** (-1)).matrix_list == expected_inv.tolist()

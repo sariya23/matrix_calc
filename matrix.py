@@ -1,19 +1,19 @@
 from utils import determinant_recursive,\
     add_matrix, sub_matrix, mul_matrix, mul_number_to_matrix,\
-    pow_matrix, transpose_matrix
+    pow_matrix, transpose_matrix, inverse_matrix, do_decimal
 
 from validators import ValidMatrix
-
+import numpy as np
 
 class Matrix:
     matrix = ValidMatrix()
 
     def __init__(self, matrix_list):
-        self.matrix = matrix_list
+        self.matrix = do_decimal(matrix_list)
         self._determinate = determinant_recursive(matrix_list)
         self._size = (len(self.matrix), len(self.matrix[0]))
         self._t = transpose_matrix(matrix_list)
-        self._matrix_list = matrix_list
+        self._matrix_list = do_decimal(matrix_list)
 
     def __add__(self, other):
         if isinstance(other, Matrix):
@@ -40,6 +40,8 @@ class Matrix:
 
     def __pow__(self, power, modulo=None):
         if isinstance(power, int | float):
+            if power == -1:
+                return Matrix(inverse_matrix(self.matrix))
             return Matrix(pow_matrix(power, self.matrix))
         return NotImplemented
 
@@ -84,4 +86,8 @@ class Matrix:
 
 
 if __name__ == '__main__':
-    a = Matrix([[1]])
+    a = Matrix([[2, 3], [-1, 4]])
+
+    print((a ** -1).matrix_list == np.linalg.inv(np.array([[2, 3], [-1, 4]])).tolist())
+    print((a ** -1).matrix_list)
+    print(np.linalg.inv(np.array([[2, 3], [-1, 4]])).tolist())

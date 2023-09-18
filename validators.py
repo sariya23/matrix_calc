@@ -1,3 +1,6 @@
+from decimal import *
+
+
 class ValidMatrix:
     def __set_name__(self, cls, attr):
         self._attr = attr
@@ -33,5 +36,5 @@ class ValidMatrix:
     def __is_all_numbers(lst):
         for i in range(len(lst)):
             for j in range(len(lst[0])):
-                if not isinstance(lst[i][j], int | float):
+                if not isinstance(lst[i][j], Decimal):
                     raise TypeError('All values must be integer or float')

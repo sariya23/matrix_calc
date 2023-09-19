@@ -2,7 +2,13 @@ from copy import deepcopy
 from decimal import *
 
 
-def determinant_recursive(matrix):
+def determinant_recursive(matrix: list[list[Decimal, ...], ...]):
+    """
+    Рекурсивное вычисление определителя матрицы
+    произвольного порядка.
+    :param matrix:
+    :return:
+    """
     if len(matrix) == len(matrix[0]) == 1:
         return matrix[0][0]
 
@@ -32,11 +38,24 @@ def determinant_recursive(matrix):
     return total
 
 
-def get_size_matrix(matrix):
+def get_size_matrix(matrix: list[list[Decimal, ...], ...]) -> tuple[int, int]:
+    """
+    Возвращает размер матрицы. Первое значение - это количество
+    строк, второе - количество столбцов
+    :param matrix:
+    :return:
+    """
     return len(matrix), len(matrix[0])
 
 
-def add_matrix(matrix1, matrix2):
+def add_matrix(
+        matrix1: list[list[Decimal, ...], ...],
+        matrix2: list[list[Decimal, ...], ...]
+) -> list[list[int | float, ...], ...]:
+    """
+    Функция складывает 2 матрицы и
+    возвращает новую матрицу как результат.
+    """
     R, C = get_size_matrix(matrix1)
     new_matrix = [[0] * C for _ in range(R)]
 
@@ -47,7 +66,14 @@ def add_matrix(matrix1, matrix2):
     return new_matrix
 
 
-def sub_matrix(matrix1, matrix2):
+def sub_matrix(
+    matrix1: list[list[Decimal, ...], ...],
+    matrix2: list[list[Decimal, ...], ...]
+) -> list[list[int | float, ...], ...]:
+    """
+    Функция вычитает две матрицы
+    и возвращает новую матрицу как результат.
+    """
     R, C = get_size_matrix(matrix1)
     new_matrix = [[0] * C for _ in range(R)]
 
@@ -58,7 +84,14 @@ def sub_matrix(matrix1, matrix2):
     return new_matrix
 
 
-def mul_matrix(matrix1, matrix2):
+def mul_matrix(
+    matrix1: list[list[Decimal, ...], ...],
+    matrix2: list[list[Decimal, ...], ...]
+) -> list[list[int | float, ...], ...]:
+    """
+    Функция перемножает 2 матрицы
+    и возвращает новую матрицу как результат.
+    """
     C2 = len(matrix2[0])
     R1 = len(matrix1)
     R2 = len(matrix2)
@@ -72,18 +105,32 @@ def mul_matrix(matrix1, matrix2):
     return new_matrix
 
 
-def mul_number_to_matrix(number, matrix):
+def mul_number_to_matrix(
+        number: int | float,
+        matrix: list[list[Decimal, ...], ...]
+) -> list[list[Decimal, ...], ...]:
+    """
+    Функция умножает матрицу на число
+    и возвращает новую матрицу как результат.
+    """
     R, C = get_size_matrix(matrix)
-    new_matrix = [[0] * C for _ in range(R)]
+    new_matrix = [[Decimal('0')] * C for _ in range(R)]
 
     for i in range(R):
         for j in range(C):
-            new_matrix[i][j] = matrix[i][j] * number
+            new_matrix[i][j] = Decimal(matrix[i][j] * number).quantize(Decimal('1.0000'))
 
     return new_matrix
 
 
-def pow_matrix(power, matrix):
+def pow_matrix(
+        power: int | float,
+        matrix: list[list[Decimal, ...], ...]
+) -> list[list[Decimal, ...], ...]:
+    """
+    Функция возводит матрицу
+    в степень и возвращает новую матрицу как результат.
+    """
     if len(matrix) != len(matrix[0]):
         raise TypeError('It is not a square matrix!')
 
@@ -95,12 +142,19 @@ def pow_matrix(power, matrix):
     return new_matrix
 
 
-def transpose_matrix(matrix):
+def transpose_matrix(matrix: list[list[Decimal, ...], ...]) -> list[list[Decimal, ...], ...]:
+    """
+    Функция транспонирует матрицу
+    и возвращает новую матрицу как результат.
+    """
     res = [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
     return res
 
 
-def get_element_minor(matrix, i, j):
+def get_element_minor(matrix: list[list[Decimal, ...], ...], i: int, j: int) -> int | float | None:
+    """
+    Возвращает значение минора для i, j элемента.
+    """
     minor = []
 
     for row in (matrix[:i] + matrix[i + 1:]):
@@ -109,7 +163,10 @@ def get_element_minor(matrix, i, j):
     return determinant_recursive(minor)
 
 
-def get_matrix_minor(matrix):
+def get_matrix_minor(matrix: list[list[Decimal, ...], ...]) -> list[list[Decimal, ...], ...]:
+    """
+    Функция возвращает матрицу миноров.
+    """
     matrix_minor = [[0] * len(matrix[0]) for i in range(len(matrix))]
 
     for i in range(len(matrix)):
@@ -146,9 +203,19 @@ def do_decimal(matrix_list):
 
     for i in range(len(matrix_list)):
         for j in range(len(matrix_list[0])):
-            new_matrix[i][j] = Decimal(str(matrix_list[i][j])).quantize(Decimal('1.000000'))
+            new_matrix[i][j] = Decimal(str(matrix_list[i][j])).quantize(Decimal('1.0000'))
 
     return new_matrix
+
+
+def do_float(matrix_list):
+    new_matrix = [[0] * len(matrix_list[0]) for i in range(len(matrix_list))]
+
+    for i in range(len(matrix_list)):
+        for j in range(len(matrix_list[0])):
+            new_matrix[i][j] = float(str(matrix_list[i][j]))
+    return new_matrix
+
 
 if __name__ == '__main__':
     print(do_decimal([
@@ -157,4 +224,4 @@ if __name__ == '__main__':
         [1, 2, 3]
     ]))
 
-    print((Decimal('52')) + Decimal('34'))
+    print(type(float(Decimal('52.234')) * 5))

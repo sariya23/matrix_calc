@@ -1,6 +1,7 @@
 from utils import determinant_recursive,\
     add_matrix, sub_matrix, mul_matrix, mul_number_to_matrix,\
-    pow_matrix, transpose_matrix, inverse_matrix, do_decimal
+    pow_matrix, transpose_matrix, inverse_matrix, do_decimal,\
+    do_float
 
 from validators import ValidMatrix
 import numpy as np
@@ -18,9 +19,9 @@ class Matrix:
         self._determinate = determinant_recursive(matrix_list)
         self._size = (len(self.matrix), len(self.matrix[0]))
         self._t = transpose_matrix(matrix_list)
-        self._matrix_list = do_decimal(matrix_list)
+        self._matrix_list = do_float(do_decimal(matrix_list))
 
-    def __add__(self, other) -> 'Matrix':
+    def __add__(self, other):
         """
         Сложение матриц.
 
@@ -116,8 +117,8 @@ class Matrix:
 
 
 if __name__ == '__main__':
-    a = Matrix([[2, 3], [-1, 4]])
+    a = Matrix([[2, 3.4], [-1, 4]])
+    b = Matrix([[1, 2.4], [1, 2]])
+    print(a * 5)
+    print((a + b).matrix)
 
-    print((a ** -1).matrix_list == np.linalg.inv(np.array([[2, 3], [-1, 4]])).tolist())
-    print((a ** -1).matrix_list)
-    print(np.linalg.inv(np.array([[2, 3], [-1, 4]])).tolist())

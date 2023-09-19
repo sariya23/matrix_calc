@@ -4,8 +4,13 @@ from utils import determinant_recursive,\
 
 from validators import ValidMatrix
 import numpy as np
+from typing import Type
+
 
 class Matrix:
+    """
+    Класс представляет собой матрицу.
+    """
     matrix = ValidMatrix()
 
     def __init__(self, matrix_list):
@@ -15,7 +20,13 @@ class Matrix:
         self._t = transpose_matrix(matrix_list)
         self._matrix_list = do_decimal(matrix_list)
 
-    def __add__(self, other):
+    def __add__(self, other) -> 'Matrix':
+        """
+        Сложение матриц.
+
+        :param other: Экземпляр класса Matrix.
+        :return: Результат сложения двух матриц в виде экземпляра класса Matrix.
+        """
         if isinstance(other, Matrix):
             if other.size == self.size:
                 return Matrix(add_matrix(self.matrix, other.matrix))
@@ -23,6 +34,12 @@ class Matrix:
         return NotImplemented
 
     def __sub__(self, other):
+        """
+        Вычитание матриц.
+
+        :param other: Экземпляр класса Matrix.
+        :return: Результат вычитания двух матриц в виде экземпляра класса Matrix.
+        """
         if isinstance(other, Matrix):
             if other.size == self.size:
                 return Matrix(sub_matrix(self.matrix, other.matrix))
@@ -30,6 +47,12 @@ class Matrix:
         return NotImplemented
 
     def __mul__(self, other):
+        """
+        Умножение матриц.
+
+        :param other: Экземпляр класса Matrix.
+        :return: Результат перемножения двух матриц в виде экземпляра класса Matrix.
+        """
         if isinstance(other, Matrix):
             if self.size[1] == other.size[0]:
                 return Matrix(mul_matrix(self.matrix, other.matrix))
@@ -38,14 +61,21 @@ class Matrix:
             return Matrix(mul_number_to_matrix(other, self.matrix))
         return NotImplemented
 
-    def __pow__(self, power, modulo=None):
+    def __pow__(self, power):
+        """
+        Возведение в степень. Если степень равна -1, то
+        вернется обратная матрица.
+
+        :param power: Значение степени.
+        :return: Результат возведения матрицы в степень в виде экземпляра класса Matrix.
+        """
         if isinstance(power, int | float):
             if power == -1:
                 return Matrix(inverse_matrix(self.matrix))
             return Matrix(pow_matrix(power, self.matrix))
         return NotImplemented
 
-    def __str__(self):
+    def __str__(self) -> str:
         res = ''
 
         for i in range(len(self.matrix)):
@@ -55,10 +85,10 @@ class Matrix:
 
         return res
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.matrix)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, Matrix):
             return self.matrix == other.matrix
         return NotImplemented
@@ -68,20 +98,20 @@ class Matrix:
         pass
 
     @property
-    def determinate(self):
+    def determinate(self) -> int | float:
         return self._determinate
 
     @property
-    def size(self):
+    def size(self) -> tuple[int, int]:
         return self._size
 
     @property
-    def t(self):
+    def t(self) -> 'Matrix':
         self._t = Matrix(self._t)
         return self._t
 
     @property
-    def matrix_list(self):
+    def matrix_list(self) -> list[list, ...]:
         return self._matrix_list
 
 
